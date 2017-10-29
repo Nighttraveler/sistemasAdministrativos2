@@ -1,0 +1,101 @@
+{% extends  "librodiario/home.html"  %}
+
+{% block contenido %}
+
+{% block navegacion %}
+  <ul class="nav nav-tabs">
+    <li class=" col-md-3 text-center"><a href={% url 'libro:home' %}  >Cargar Movimientos</a></li>
+    <li class=" col-md-3 text-center"><a  href={% url 'libro:librodiario' %}  >Libro diario</a></li>
+    <li class=" active col-md-3 text-center"><a href={% url 'libro:libromayor' %}>Libros mayores</a></li>
+    {% if not request.user.is_superuser  %}
+      <li class="col-md-3 disabled text-center"><a >Cuentas</a></li>
+
+    {% else %}
+    <li class="col-md-3  text-center"><a  href={% url 'libro:cuentas' %} >Cuentas</a></li>
+    {% endif %}
+
+
+  </ul>
+
+{% endblock %}
+
+
+<div class="container">
+  <form class="form-inline" action={% url 'libro:libromayor' %} method="get">
+    <fieldset>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="desde">Desde: </label>
+        <div class="col-sm-10">
+          <input class="form-control" type="date" name="desde" placeholder="fecha de inicio">
+        </div>
+      </div>
+
+      <div class="form-group" >
+        <label class="col-sm-2 control-label" for="desde">Hasta: </label>
+        <div class="col-sm-10">
+          <input class="form-control" type="date" name="hasta" placeholder="fecha de fin">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-search"></span>Filtrar</button>
+
+    </fieldset>
+
+  </form>
+
+  <br>
+  {% for c in cuentas %}
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse{{c.cuenta}}">{{c.cuenta__denominacion}}</a>
+        </h4>
+      </div>
+      <div id="collapse{{c.cuenta}}" class="panel-collapse collapse">
+        <div class="panel-body">
+          <table class="table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>Nº asiento</th>
+                <th>Debe</th>
+                <th>Haber</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for m in movimientos  %}
+              <tr>
+                {% if c.cuenta == m.cuenta.id %}
+                <td>{{m.numeroAsiento}}</td>
+                <td>{{m.debe|default_if_none:' '}}</td>
+                <td>{{m.haber|default_if_none:' '}}</td>
+                <td>{{m.numeroAsiento.fecha }}</td>
+
+                {% endif %}
+              </tr>
+
+              {% endfor %}
+
+
+            </tbody>
+          </table>
+          <p class="text-right"> <strong>Saldo {% if desde and hasta %}{{desde}}---{{hasta}}{% else %} actual {% endif %}  = {{c.saldo}}</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}
