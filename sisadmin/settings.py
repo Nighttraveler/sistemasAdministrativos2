@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
 
     ## my apps
-    'librodiario.apps.LibrodiarioConfig',
+    'sistemaContable.apps.SistemaContableConfig',
+    'authentication.apps.AuthenticationConfig',
 
 
     #django
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-LOGIN_REDIRECT_URL = 'libro:home'
+LOGIN_REDIRECT_URL = 'authentication:dashboard'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

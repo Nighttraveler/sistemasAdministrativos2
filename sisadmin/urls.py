@@ -22,11 +22,10 @@ from django.core.urlresolvers import reverse_lazy
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
 
-    url(r'^', include('librodiario.urls')),
+    url(r'sistemaContable/', include('sistemaContable.urls')),
+    url(r'', include('authentication.urls')),
 
-    url (r'^accounts/logout/$', auth_views.logout,
-        {'next_page':reverse_lazy('libro:index')},
-        name='logout' ),
+
 
 
     url(r'^accounts/', include('django.contrib.auth.urls')),

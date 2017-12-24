@@ -1,0 +1,21 @@
+{% extends "sistemaContable/base.html" %}
+
+{% load bootstrap3 %}
+{% block nav %}
+
+{% endblock %}
+{% block contenido %}
+<div class="container">
+
+ 
+<form role="form"  class="form"   action={% url 'login' %} method="post">
+  {% csrf_token %}
+
+  {%bootstrap_form form %}
+
+  <button type="submit" class="btn btn-success center-block"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+
+</form>
+
+</div>
+{% endblock %}
